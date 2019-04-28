@@ -1,13 +1,13 @@
 # Site settings | 网站设置
-title: RainbomSea
-SEOTitle: RainbomSea的博客 | RaimbomSea
+title: Kai
+SEOTitle: Kai的博客 | Kai
 header-img: img/home-bg-he.png
-email: RainbomSea@qq.com
-description: "RainbomSea的博客"
-keyword: "RainbomSea, RainbomSea的博客, rainbom sea, rainbomsea, Python blog"
-url: "http://RainbomSea.github.io"          # your host, for absolute URL
+email: 583875191@qq.com
+description: "Kai的博客"
+keyword: "kai, 深度学习, 机器学习, Python blog"
+url: "http://Kai1991.github.io"          # your host, for absolute URL
 baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
-github_repo: "https://github.com/RainbomSea/RainbomSea.github.io.git" #code repository | 代码仓库
+github_repo: "https://github.com/Kai1991/Kai1991.github.io.git" #code repository | 代码仓库
 
 
 # Sidebar settings | 侧边栏设置
@@ -23,7 +23,7 @@ sidebar-avatar: /img/head.jpg      # 头像
 #facebook_username: rainbom.z
 github_username: Kai1991
 #zhihu_username: RainbomSea
-csdn_username: qq_583875191
+#csdn_username: qq_583875191
 
 
 
