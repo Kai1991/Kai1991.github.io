@@ -47,7 +47,7 @@ nohup python train.py &
 ```
 
 训练结果
-![](img/2019-4-28-PointNet/class_result.jpg)
+![](https://github.com/Kai1991/Kai1991.github.io/blob/master/img/2019-4-28-PointNet/class_result.jpg)
 
 ## PonitNet分类代码走读
 
@@ -55,7 +55,7 @@ nohup python train.py &
 
 ### PointNet模型结构
 
-![](img/2019-4-28-PointNet/pointNet_structure.jpg)
+![](https://github.com/Kai1991/Kai1991.github.io/blob/master/img/2019-4-28-PointNet/pointNet_structure.jpg)
 
 ### get_model 方法解读，看注解
 
@@ -168,7 +168,7 @@ def input_transform_net(point_cloud, is_training, bn_decay=None, K=3):
     return transform
 ```
 
-#### 对这个转换网络的生成还是不太懂，后面明白了再记录，![这里讲Spatial Transformer Networks](https://blog.csdn.net/qq_39422642/article/details/78870629)讲的非常好，通俗易懂。
+> 对这个转换网络的生成还是不太懂，后面明白了再记录，[这里讲Spatial Transformer Networks](https://blog.csdn.net/qq_39422642/article/details/78870629)讲的非常好，通俗易懂。
 
 
 ### feature_transform_net 方法
