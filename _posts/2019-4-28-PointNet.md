@@ -18,34 +18,33 @@ tags:
 
 ### 使用到的分类训练，验证数据
 
-分类数据 https://shapenet.cs.stanford.edu/media/modelnet40_ply_hdf5_2048.zip
+分类数据 [] (https://shapenet.cs.stanford.edu/media/modelnet40_ply_hdf5_2048.zip)
 
 ### 部分代码修改
 
 我习惯把训练验证数据和代码分开，建议在代码文件同一级别建 data文件夹存放数据，所以训练数据的地址进行修改
 
-'''
+```
 TRAIN_FILES = provider.getDataFiles( \
     os.path.join(BASE_DIR, '../data/modelnet40_ply_hdf5_2048/train_files.txt'))
 TEST_FILES = provider.getDataFiles(\
     os.path.join(BASE_DIR, '../data/modelnet40_ply_hdf5_2048/test_files.txt'))
-'''
+```
 
 数据也需要修改，修改如下
-'''
+```
 ../data/modelnet40_ply_hdf5_2048/ply_data_train0.h5
 ../data/modelnet40_ply_hdf5_2048/ply_data_train1.h5
 ../data/modelnet40_ply_hdf5_2048/ply_data_train2.h5
 ../data/modelnet40_ply_hdf5_2048/ply_data_train3.h5
 ../data/modelnet40_ply_hdf5_2048/ply_data_train4.h5
-
-'''
+```
 
 然后执行
 
-'''shell
+```shell
 nohup python train.py & 
-'''
+```
 
 训练结果
 ![](img/2019-4-28-PointNet/class_result.jpg)
@@ -60,7 +59,7 @@ nohup python train.py &
 
 ### get_model 方法解读，看注解
 
-'''
+```
 def get_model(point_cloud, is_training, bn_decay=None):
     """ Classification PointNet, input is BxNx3, output Bx40 """
     batch_size = point_cloud.get_shape()[0].value
@@ -119,11 +118,11 @@ def get_model(point_cloud, is_training, bn_decay=None):
     net = tf_util.fully_connected(net, 40, activation_fn=None, scope='fc3') # shape: B * 40
 
     return net, end_points
-'''
+```
 
 ### input_transform_net 方法
 
-'''
+```
 def input_transform_net(point_cloud, is_training, bn_decay=None, K=3):
     """ Input (XYZ) Transform Net, input is BxNx3 gray image
         Return:
@@ -167,14 +166,14 @@ def input_transform_net(point_cloud, is_training, bn_decay=None, K=3):
 
     transform = tf.reshape(transform, [batch_size, 3, K]) # shape : B * 3 * k
     return transform
-'''
+```
 
 #### 对这个转换网络的生成还是不太懂，后面明白了再记录，![这里讲Spatial Transformer Networks](https://blog.csdn.net/qq_39422642/article/details/78870629)讲的非常好，通俗易懂。
 
 
 ### feature_transform_net 方法
 
-'''
+```
 def feature_transform_net(inputs, is_training, bn_decay=None, K=64):
     """ Feature Transform Net, input is BxNx1xK
         Return:
@@ -216,5 +215,4 @@ def feature_transform_net(inputs, is_training, bn_decay=None, K=64):
 
     transform = tf.reshape(transform, [batch_size, K, K])
     return transform
-
-'''
+```
