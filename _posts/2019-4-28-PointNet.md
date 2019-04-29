@@ -18,7 +18,7 @@ tags:
 
 ### 使用到的分类训练，验证数据
 
-![分类数据](https://shapenet.cs.stanford.edu/media/modelnet40_ply_hdf5_2048.zip)
+分类数据 https://shapenet.cs.stanford.edu/media/modelnet40_ply_hdf5_2048.zip
 
 ### 部分代码修改
 
@@ -48,7 +48,7 @@ nohup python train.py &
 '''
 
 训练结果
-![](../img/2019-4-28-PointNet/class_result.jpg)
+![](img/2019-4-28-PointNet/class_result.jpg)
 
 ## PonitNet分类代码走读
 
@@ -56,7 +56,7 @@ nohup python train.py &
 
 ### PointNet模型结构
 
-![](../img/2019-4-28-PointNet/pointNet_structure.jpg)
+![](img/2019-4-28-PointNet/pointNet_structure.jpg)
 
 ### get_model 方法解读，看注解
 
@@ -121,7 +121,7 @@ def get_model(point_cloud, is_training, bn_decay=None):
     return net, end_points
 '''
 
-#### input_transform_net 方法
+### input_transform_net 方法
 
 '''
 def input_transform_net(point_cloud, is_training, bn_decay=None, K=3):
