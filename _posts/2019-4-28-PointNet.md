@@ -7,7 +7,12 @@ author:     Kai
 header-img: img/home-bg-o.jpg
 catalog: true
 tags:
-    - Blog
+    - 自动驾驶
+    - 感知
+    - PointNet系列
+    - 3D点云
+    - 3D点云分类
+    - 3D点云分割
 ---
 
 ## 前言
