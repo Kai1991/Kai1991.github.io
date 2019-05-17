@@ -13,47 +13,45 @@ tags:
 
 ## 前言
 
-学习3D点云想要用到ros的rviz。一开始要用Mac装ROS，没有成功（非常蛋痛，放弃了），选择使用docker。官方支持非常好，官方的docker没有安装rviz。需要自己安装
+学习3D点云想要用到ros的rviz。一开始要用Mac装ROS，没有成功（非常蛋痛，放弃了），选择使用docker。官方支持非常好，官方的docker没有安装rviz。需要自己安装|   ros官方的docker安装完后，依然有问题，并且不好解决。下面介绍一种非常简洁，傻瓜式安装（全网最简洁方式）。
 
-## 安装 socat
-
-```shell
-brew install socat
-socat TCP-LISTEN:6000,reuseaddr,fork UNIX-CLIENT:\"$DISPLAY\" 
-```
-
-## 安装 xquartz
+## 拉去别人做好的镜像
 
 ```shell
-brew install xquartz
+docker pull ct2034/vnc-ros-kinetic-full
 ```
 
-#### 运行 xquartz
+## 运行 容器
 
 ```shell
-open -a Xquartz
+docker run -it --rm -p 6080:80 ct2034/vnc-ros-kinetic-full
 ```
 
-#### 配置 xquartz
-
-在 xquartz 个性化设置的安全 勾选 ‘允许网络端链接’
-
-## 运行容器 
+## 浏览器 输入地址
 
 ```shell
-docker run -e DISPLAY=192.168.64.112:0 -it ros_rviz:latest
+http://127.0.0.1:6080/
 ```
-备注： 192.168.64.112 这里的IP改成自己宿主机的ip。ros_rviz:latest ：快照名：版本号
 
+
+## 在容器内启动主节点 
+
+```shell
+roscore
+```
 ## 在容器内启动 rviz
 
 ```shell
 rosrun rviz rviz
-```
+``` 
+
+## 结果
+看到这个结果想哭，折腾了好长时间才找到这么方便的方式。。。。。
+![](https://raw.github.com/ct2034/docker-ubuntu-vnc-desktop/master/screenshots/ros-kinetic.png)
 
 
 ## 引用
-[讲的很好，如果打不开的话，请科学上网，^……^](https://cntnr.io/running-guis-with-docker-on-mac-os-x-a14df6a76efc)
+[docker 镜像作者，里面也有说明](https://hub.docker.com/r/ct2034/vnc-ros-kinetic-full/)
 
 
 
