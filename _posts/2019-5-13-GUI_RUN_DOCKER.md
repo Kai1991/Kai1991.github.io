@@ -15,7 +15,7 @@ tags:
 
 学习3D点云想要用到ros的rviz。一开始要用Mac装ROS，没有成功（非常蛋痛，放弃了），选择使用docker。官方支持非常好，官方的docker没有安装rviz。需要自己安装 .ros官方的docker安装完后，依然有问题，并且不好解决。下面介绍一种非常简洁，傻瓜式安装（全网最简洁方式）。
 
-## 拉去别人做好的镜像
+## 拉取别人做好的镜像
 
 ```shell
 docker pull ct2034/vnc-ros-kinetic-full
