@@ -15,31 +15,31 @@ tags:
 点云的一些基础知识
 
 ## 激光雷达类型
-    - 机械式雷达
-    - MEMS式雷达
+* 机械式雷达
+* MEMS式雷达
 
 # 3D点云数据来源
-    - CAD模型
-    - 雷达传感器
-    - RGBD相机
+* CAD模型
+* 雷达传感器
+* RGBD相机
 
 ## 点云数据特点
-    - 简单，有 x,y,z,i (三维坐标 加强度)
-    - 稀疏，约是图片数据的7%
-    - 无序
-    - 精度高，误差在正负2cm
+* 简单，有 x,y,z,i (三维坐标 加强度)
+* 稀疏，约是图片数据的7%
+* 无序
+* 精度高，误差在正负2cm
 
 ## 图像和点云的比较
 
-点云：简单，精确，适合几何感知
-图像：有丰富的语义感知信息
-坐标系不一样 ![坐标系](http://ronny.rest/media/tutorials/lidar/point_cloud_coordinates/photo_vs_lidar_axes.png)
+* 点云：简单，精确，适合几何感知
+* 图像：有丰富的语义感知信息
+* 坐标系不一样 ![坐标系](http://ronny.rest/media/tutorials/lidar/point_cloud_coordinates/photo_vs_lidar_axes.png)
 
 ## 点云数据集
-[KITTI](http://www.cvlibs.net/datasets/kitti/)   
-[阿波罗](http://apolloscape.auto/) 
-[cityscapes](https://www.cityscapes-dataset.com/)
-[berkeley](https://bdd-data.berkeley.edu/)
+* [KITTI](http://www.cvlibs.net/datasets/kitti/)
+* [阿波罗](http://apolloscape.auto/) 
+* [cityscapes](https://www.cityscapes-dataset.com/)
+* [berkeley](https://bdd-data.berkeley.edu/)
 
 ## KITTI数据集
 
