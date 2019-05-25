@@ -51,6 +51,8 @@ KITTI数据采集平台包括2个灰度摄像机，2个彩色摄像机，一个V
 
 ![kitti数据采集平台](https://img-blog.csdn.net/20180521105216125?watermark/2/text/aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3N5eXlhbw==/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70)
 
+### KITTI数据下载
+由于被墙没法下载，从网上找的资源，放在自己的百度云上了，[地址](https://pan.baidu.com/s/1Cekq77X_wtIElHKxC0FlsA)
 
 
 ## 引用
