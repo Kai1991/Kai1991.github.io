@@ -31,15 +31,15 @@ tags:
 
 ## 图像和点云的比较
 
-    - 点云：简单，精确，适合几何感知
-    - 图像：有丰富的语义感知信息
-    - 坐标系不一样 ![](http://ronny.rest/media/tutorials/lidar/point_cloud_coordinates/photo_vs_lidar_axes.png)
+点云：简单，精确，适合几何感知
+图像：有丰富的语义感知信息
+坐标系不一样 ![坐标系](http://ronny.rest/media/tutorials/lidar/point_cloud_coordinates/photo_vs_lidar_axes.png)
 
 ## 点云数据集
-    - [KITTI](http://www.cvlibs.net/datasets/kitti/)   
-    - [阿波罗](http://apolloscape.auto/) 
-    - [cityscapes](https://www.cityscapes-dataset.com/)
-    - [berkeley](https://bdd-data.berkeley.edu/)
+[KITTI](http://www.cvlibs.net/datasets/kitti/)   
+[阿波罗](http://apolloscape.auto/) 
+[cityscapes](https://www.cityscapes-dataset.com/)
+[berkeley](https://bdd-data.berkeley.edu/)
 
 ## KITTI数据集
 
@@ -54,7 +54,7 @@ KITTI数据采集平台包括2个灰度摄像机，2个彩色摄像机，一个V
 
 
 ## 引用
-    - [Processing Point Clouds](http://ronny.rest/tutorials/module/pointclouds_01)
+[Processing Point Clouds](http://ronny.rest/tutorials/module/pointclouds_01)
 
 
 
