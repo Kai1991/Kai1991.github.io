@@ -16,6 +16,7 @@ Tensorflow学习使用记录
 ## Tensorflow 操作算子
 
 * tf.squeeze 压缩
+压缩tensor,把shape中为1的干掉，可以指定具体哪个秩。
 
 ```shell
 import tensorflow as tf
@@ -47,6 +48,49 @@ with tf.Session() as sess:
 
 [[0 0 0]
  [0 0 0]]
+```
+
+* tf.scatter_nd 分散操作（自己起的，不是官方的）
+
+把目标tensor切片，插入到另一个指定形状的tensor（值全为0）中.
+```shell
+import tensorflow as tf
+
+indices = tf.constant([[0],[2]])
+updates = tf.constant([[[5, 5, 5, 5], [6, 6, 6, 6],
+                        [7, 7, 7, 7], [8, 8, 8, 8]],
+                       [[5, 5, 5, 5], [6, 6, 6, 6],
+                        [7, 7, 7, 7], [8, 8, 8, 8]]]) # shape:2*4*4
+
+shape = tf.constant([4,4,4])
+scatter = tf.scatter_nd(indices, updates, shape)
+with tf.Session() as sess:
+    print(sess.run(scatter))
+
+```
+过程
+<img src="./img/2019-5-30-TensorFlow-Learning/tf.scatter_nd.png" />
+结果：
+```shell
+[[[5 5 5 5]
+  [6 6 6 6]
+  [7 7 7 7]
+  [8 8 8 8]]
+
+ [[0 0 0 0]
+  [0 0 0 0]
+  [0 0 0 0]
+  [0 0 0 0]]
+
+ [[5 5 5 5]
+  [6 6 6 6]
+  [7 7 7 7]
+  [8 8 8 8]]
+
+ [[0 0 0 0]
+  [0 0 0 0]
+  [0 0 0 0]
+  [0 0 0 0]]]
 ```
 
 
