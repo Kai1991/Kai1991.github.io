@@ -69,7 +69,7 @@ with tf.Session() as sess:
 
 ```
 过程
-<img src="./img/2019-5-30-TensorFlow-Learning/tf.scatter_nd.png" />
+<img src="{{ site.baseurl }}/img/2019-5-30-TensorFlow-Learning/tf.scatter_nd.png" />
 结果：
 ```shell
 [[[5 5 5 5]
