@@ -50,7 +50,7 @@ with tf.Session() as sess:
  [0 0 0]]
 ```
 
-### tf.scatter_nd 分散操作（自己起的，不是官方的）
+### tf.scatter_nd
 
 把目标tensor切片，插入到另一个指定形状的tensor（值全为0）中.
 ```shell
@@ -117,6 +117,7 @@ with tf.Session() as sess:
 [[1 2 3 1 2 3 1 2 3]
  [1 2 3 1 2 3 1 2 3]]
 ```
+注：引用 [直观的理解tensorflow中的tf.tile()函数](https://blog.csdn.net/tsyccnh/article/details/82459859),博客中表述有点问题，只使用了他的图。
 
 
 
