@@ -119,6 +119,25 @@ with tf.Session() as sess:
 ```
 注：引用 [直观的理解tensorflow中的tf.tile()函数](https://blog.csdn.net/tsyccnh/article/details/82459859),博客中表述有点问题，只使用了他的图。
 
+### tf.train.piecewise_constant
+学习率衰变
+
+```shell
+
+import tensorflow as tf
+
+global_step = tf.Variable(0,name='global_step',trainable=False)
+
+bounries = [10,20,30,40]
+learning_rates = [1.0,0.9,0.8,0.6,0.4]
+
+with tf.Session() as sess:
+    for global_step in range(50):
+        learning_rate = tf.train.piecewise_constant(global_step,bounries,learning_rates)
+        lr = sess.run([learning_rate])
+        print(lr)
+```
+
 
 
 
