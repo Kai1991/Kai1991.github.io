@@ -94,7 +94,7 @@ with tf.Session() as sess:
 ```
 注：引用 [TensorFlow学习（三）：tf.scatter_nd函数](https://blog.csdn.net/zlrai5895/article/details/80551056)
 
-### tf.tile()
+### tf.tile
 对 tensor(张量) 按维度进行复制扩充
 ```shell
 import tensorflow as tf

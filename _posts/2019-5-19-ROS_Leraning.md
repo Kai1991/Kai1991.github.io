@@ -28,7 +28,16 @@ ROS的一些基础知识
 
 * catkin_create_pkg : 创建应用包   . 例子： catkin_create_pkg test rosapp （ 创建test包 同时引用rosapp包）
 
-* catkin_make : 编译包 注：要在工作空间目录运行 ，同时编译前需要执行：source ./devel/setup.bash
+* catkin_make : 编译包 
+
+注：要在工作空间目录运行 ，同时编译前需要执行：source ./devel/setup.bash
+
+## rostopic
+
+* rostopic list 查询有哪些topic
+
+* rostopic echo topic名 查询topi输出信息
+
 
 
 
