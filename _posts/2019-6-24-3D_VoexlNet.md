@@ -27,6 +27,7 @@ tags:
     * 计算体素内每个点到执行的距离，增加特征
     * 数据处理的主要代码
 
+
 ```shell
 def process_pointcloud(point_cloud, cls=cfg.DETECT_OBJ):
     # Input:
@@ -106,7 +107,9 @@ def process_pointcloud(point_cloud, cls=cfg.DETECT_OBJ):
     * 逐点云学习特征
     * 每个体素都用128维向量表示
     * VFE结构
+
 <img src="{{ site.baseurl }}/img/2019-6-24-3D_VoexlNet/VFE.png"/>
+
     * 重点代码
 
 ```shell
@@ -148,8 +151,11 @@ class VFELayer(object):
 ## RPN层
 
     * RPN结构
+
  <img src="{{ site.baseurl }}/img/2019-6-24-3D_VoexlNet/volexNet-MiddleNet&RPN.png" />
+
     * 主要代码 
+
 ```shell
 class MiddleAndRPN:
     def __init__(self, input, alpha=1.5, beta=1, sigma=3, training=True, name=''):
@@ -261,9 +267,12 @@ class MiddleAndRPN:
 
 ## Loss
     * 输入的真值 
+
 <img src="{{ site.baseurl }}/img/2019-6-24-3D_VoexlNet/TruthValue.png" />
 注 d等于anchor的l和w平方和的根方。
+
     * Loss
+
 <img src="{{ site.baseurl }}/img/2019-6-24-3D_VoexlNet/Loss.png" /> 
 
 
