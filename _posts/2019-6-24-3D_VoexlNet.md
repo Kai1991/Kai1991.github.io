@@ -26,7 +26,8 @@ tags:
     * 抽样数据。目的：减少计算量，TODO
     * 计算体素内每个点到执行的距离，增加特征
     * 数据处理的主要代码
-```
+
+```shell
 def process_pointcloud(point_cloud, cls=cfg.DETECT_OBJ):
     # Input:
     #   (N, 4)
@@ -105,10 +106,10 @@ def process_pointcloud(point_cloud, cls=cfg.DETECT_OBJ):
     * 逐点云学习特征
     * 每个体素都用128维向量表示
     * VFE结构
- <img src="{{ site.baseurl }}/img/2019-6-24-3D_VoexlNet/VFE.png"/>
+<img src="{{ site.baseurl }}/img/2019-6-24-3D_VoexlNet/VFE.png"/>
     * 重点代码
 
-```
+```shell
 class VFELayer(object):
 
     def __init__(self, out_channels, name): #out_channels 32/128
@@ -149,7 +150,7 @@ class VFELayer(object):
     * RPN结构
  <img src="{{ site.baseurl }}/img/2019-6-24-3D_VoexlNet/volexNet-MiddleNet&RPN.png" />
     * 主要代码 
-```
+```shell
 class MiddleAndRPN:
     def __init__(self, input, alpha=1.5, beta=1, sigma=3, training=True, name=''):
         # scale = [batchsize, 10, 400/200, 352/240, 128] should be the output of feature learning network
