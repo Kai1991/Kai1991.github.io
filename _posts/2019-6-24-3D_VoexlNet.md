@@ -26,7 +26,7 @@ tags:
     * 抽样数据。目的：减少计算量，TODO
     * 计算体素内每个点到执行的距离，增加特征
     * 数据处理的主要代码
-    ```
+```
 def process_pointcloud(point_cloud, cls=cfg.DETECT_OBJ):
     # Input:
     #   (N, 4)
@@ -99,7 +99,7 @@ def process_pointcloud(point_cloud, cls=cfg.DETECT_OBJ):
                   'coordinate_buffer': coordinate_buffer, # 每个点的体素坐标
                   'number_buffer': number_buffer} # 每个体素里有几个点
     return voxel_dict
-    ```
+```
 
 ## 特征学习提取层
     * 逐点云学习特征
