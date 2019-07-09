@@ -24,7 +24,7 @@ docker pull ct2034/vnc-ros-kinetic-full
 ## 运行 容器
 
 ```shell
-docker run -it --rm -p 6080:80 ct2034/vnc-ros-kinetic-full
+docker run -it --rm -p 6080:80 -v$(pwd):/catkin_ws  ct2034/vnc-ros-kinetic-full
 ```
 
 ## 浏览器 输入地址
