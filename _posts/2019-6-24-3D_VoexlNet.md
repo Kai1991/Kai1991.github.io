@@ -275,10 +275,15 @@ class MiddleAndRPN:
 
 <img src="{{ site.baseurl }}/img/2019-6-24-3D_VoexlNet/Loss.png" /> 
 
+## 使用训练好的模型检测车辆
 
+[my github](https://github.com/Kai1991/VoxelNetRos.git)
 
-## 实战
+跑的结果：
 
+<img src="{{ site.baseurl }}/img/2019-6-24-3D_VoexlNet/1561370467339.jpg" /> 
+
+注：由于使用的cpu跑的检测，效果奇差。没有卡，命苦！
 
 
 
