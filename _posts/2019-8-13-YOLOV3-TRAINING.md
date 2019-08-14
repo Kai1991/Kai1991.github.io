@@ -1,8 +1,8 @@
 ---
 layout:     post
-title:      YOLO_V3
+title:      YOLO_V3-训练篇
 subtitle:   学习记录
-date:       2019-06-21
+date:       2019-08-13
 author:     Kai
 header-img: img/home-bg-o.jpg
 catalog: true
