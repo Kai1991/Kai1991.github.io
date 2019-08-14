@@ -15,40 +15,29 @@ Keras-TOLO3结构学习总结，分别从：输入，结构，输出 三方面�
 
 ## 模型输入
 - 首先，训练自己的数据，图片大小不需要处理。因为代码里已经处理压缩了
+
 ```shell
-        # resize image
-        scale = min(w/iw, h/ih)
-        nw = int(iw*scale)
-        nh = int(ih*scale)
-        dx = (w-nw)//2
-        dy = (h-nh)//2
-        image_data=0
-        if proc_img:
-            image = image.resize((nw,nh), Image.BICUBIC)
-            new_image = Image.new('RGB', (w,h), (128,128,128))
-            new_image.paste(image, (dx, dy))
-            image_data = np.array(new_image)/255.
+# resize image
+scale = min(w/iw, h/ih)
+nw = int(iw*scale)
+nh = int(ih*scale)
+dx = (w-nw)//2
+dy = (h-nh)//2
+image_data=0
+if proc_img:
+    image = image.resize((nw,nh), Image.BICUBIC)
+    new_image = Image.new('RGB', (w,h), (128,128,128))
+    new_image.paste(image, (dx, dy))
+    image_data = np.array(new_image)/255.
 ```
+
 - 其次，输入处理主要做的工作是：
     - 增强数据
     - 选择真值（边框）对应适合的anchor.计算真值和每个anchor的IOU,选择合适的anchor。注意：训练时的真值是处理过的，中心点，高和宽  都是 ➗ 输入大小（不是图片）✖️ anchor网格大小
+
 ```shell
     def preprocess_true_boxes(true_boxes, input_shape, anchors, num_classes):
-    '''Preprocess true boxes to training input format
-
-    Parameters
-    ----------
-    true_boxes: array, shape=(m, T, 5)  真正的边框
-        Absolute x_min, y_min, x_max, y_max, class_id relative to input_shape.
-    input_shape: array-like, hw, multiples of 32   输入模型的形状
-    anchors: array, shape=(N, 2), wh   
-    num_classes: integer
-
-    Returns
-    -------
-    y_true: list of array, shape like yolo_outputs, xywh are reletive value
-
-    '''
+ 
     assert (true_boxes[..., 4]<num_classes).all(), 'class id must be less than num_classes'
     num_layers = len(anchors)//3 # default setting   输出层数
     anchor_mask = [[6,7,8], [3,4,5], [0,1,2]] if num_layers==3 else [[3,4,5], [1,2,3]] # anchor 分类
