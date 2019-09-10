@@ -105,11 +105,142 @@ class proposal(KE.Layer):
 ```
 
 ### Anchor
-一开始学习时对anchor一直不是很理解，现在写一下我对anchor的理解。
+一开始学习时对anchor一直不是很理解，现在写一下我对anchor的理解：以特征图上的每个点为中心产生输入图像上的9个框。代码如下：
+```
+# 功能：构建 anchor
+# featureMap_size=[8,8] 特征图大小
+# ratios=[0.5, 1, 2]    宽高比
+# scales=[4, 8, 16]     anchor的面积  
+# rpn_stride=1          rpn的步长
+# anchor_stride=1       anchor的步长             
+def anchor_gen(featureMap_size, ratios, scales, rpn_stride, anchor_stride):
+    #得到9个anchor
+    ratios, scales = np.meshgrid(ratios, scales)
+    ratios, scales = ratios.flatten(), scales.flatten()
+    
+    width = scales / np.sqrt(ratios)
+    height = scales * np.sqrt(ratios)
+    
+    #得到特征图网格
+    shift_x = np.arange(0, featureMap_size[0], anchor_stride) * rpn_stride
+    shift_y = np.arange(0, featureMap_size[1], anchor_stride) * rpn_stride
+    shift_x, shift_y = np.meshgrid(shift_x, shift_y)
+    #获取每个特征图上点的9个anchor
+    centerX, anchorX = np.meshgrid(shift_x, width)
+    centerY, anchorY = np.meshgrid(shift_y, height)
+    boxCenter = np.stack([centerY, centerX], axis=2).reshape(-1, 2)
+    boxSize = np.stack([anchorX, anchorY], axis=2).reshape(-1, 2)
+    
+    #转换成 最小点 和最大点格式
+    boxes = np.concatenate([boxCenter - 0.5 * boxSize, boxCenter + 0.5 * boxSize], axis=1)
+    return boxes
+```
 
 ### RPN-loss
+rpn有两个损失函数：
+- 分类损失。只使用iou大于0.7 和 iou小于 0.3的真值参与计算损失 使用交叉熵损失函数。
+- 回归损失，使用的是smooth L1 loss(下雨阈值的使用二次函数，大于阈值的使用一次函数).
+代码如下：
+```
+def rpn_class_loss(rpn_matchs,rpn_class_logits):
+    # rpn_matchs 分类真值：这个anchor是否有 前景和背景以及中间项  起值对应 1，-1，0 ； shape (?,8*8*9,1)
+    # rpn_logist rpn的预测值;  shape (?,8*8*9,2)
+
+    rpn_matchs = tf.squeeze(rpn_matchs,axis=-1) # 压缩tensor翻遍去index
+    indices = tf.where(tf.not_equal(rpn_matchs,0)) # 取出 1 和 -1 的框窜参与计算rpn分类
+    anchor_class = K.cast(tf.equal(rpn_matchs,1),tf.int32) # 将非1的值转成0，前景为1 ，后景为0
+    anchor_class = tf.gather_nd(anchor_class,indices) #target 
+
+    rpn_class_logits = tf.gather_nd(rpn_class_logits,indices) #提取需要的预测值 # prediction
+
+    loss = K.sparse_categorical_crossentropy(anchor_class,rpn_class_logits,from_logits=True)
+    loss = K.switch(tf.size(loss) > 0,K.mean(loss),tf.constant(0.0)) #判断loss是否为零
+
+    return loss
+
+def batch_back(x,counts,num_rows):
+    out_puts = []
+    for i in range(num_rows):
+        out_puts.append(x[i,:counts[i]])
+    return tf.concat(out_puts,axis=0)
+        
+
+def rpn_bbox_loss(target_bbox,rpn_matchs,rpn_bbox):
+    # target_bbox 目标框
+    # rpn_matchs 真值是否有目标
+    # rpn_bbox 预测框
+    rpn_matchs = tf.squeeze(rpn_matchs,-1)
+    indices = tf.where(K.equal(rpn_matchs,1))
+
+    rpn_bbox = tf.gather_nd(rpn_bbox,indices)# 从预测框中提取对应位置的框
+
+    batch_counts = K.sum(K.cast(K.equal(rpn_matchs,1),'int32'),axis=1) #统计每个图片中有几个bbox
+    target_bbox = batch_back(target_bbox,batch_counts,20) #?
+    diff  = K.abs(target_bbox - rpn_bbox)
+    less_than_one = K.cast(K.less(diff,1),'float32')
+    loss = (less_than_one * 0.5 * diff**2) + (1 - less_than_one)*(diff - 0.5) #?
+    loss = K.switch(tf.size(loss) > 0,K.mean(loss),tf.constant(0.0))
+    return loss
+
+```
 
 ### DetectionTarget
+此模块在训练时使用，为下层提供训练数据。筛选proposal提供的数据，筛选与真值iou高的数据推送数据
+```
+def detection_target_graph(proposals, gt_class_ids, gt_bboxes, config):
+    #提取非0 部分：输入，ptoposal 为了固定长度使用 0进行padding
+    proposals,_ = trim_zeros_graph(proposals,name='trim_proposals') 
+    gt_bboxes,none_zeros = trim_zeros_graph(gt_bboxes,name='trim_bboxes')
+    gt_class_ids = tf.boolean_mask(gt_class_ids,none_zeros)
+
+    #计算每个proposal和每个gt_bboxes的iou 
+    #加入有N个proposal 和 M个 gt_bboxes
+    overlaps = overlaps_graph(proposals, gt_bboxes) #返回的shape：[N,M]
+    max_iouArg = tf.reduce_max(overlaps,axis=1) # 沿着M压缩 取出N个最大值  用来判断哪个proposal 是前景
+    max_iouGT = tf.argmax(overlaps,axis=0)# 沿着N压缩  计算出proposal 对应最适应的gt_bboxes
+
+    positive_mask = max_iouArg > 0.5 #大于0.5的为前景
+    positive_idxs = tf.where(positive_mask)[:,0] # 前景索引
+    negative_idxs = tf.where(max_iouArg < 0.5)[:,0] # 背景索引
+
+
+    num_positive = int(config.num_proposals_train *  config.num_proposals_ratio) #前景的数量
+    positive_idxs = tf.random_shuffle(positive_idxs)[:num_positive]
+    positive_idxs = tf.concat([positive_idxs, max_iouGT], axis=0)
+    positive_idxs = tf.unique(positive_idxs)[0] # 前景索引
+    
+    num_positive = tf.shape(positive_idxs)[0] #前景的数量
+
+    r = 1 / config.num_proposals_ratio
+    num_negative = tf.cast(r * tf.cast(num_positive, tf.float32), tf.int32) - num_positive #背景的数量
+    negative_idxs = tf.random_shuffle(negative_idxs)[:num_negative]#背景索引
+
+    positive_rois = tf.gather(proposals,positive_idxs)
+    negative_rois = tf.gather(proposals,negative_idxs)
+
+    # 取出前景对应的gt_bbox
+    positive_overlap = tf.gather(overlaps,positive_idxs)
+    gt_assignment = tf.argmax(positive_overlap,axis=1)
+    gt_bboxes = tf.gather(gt_bboxes,gt_assignment)
+    gt_class_ids = tf.gather(gt_class_ids,gt_assignment)
+
+
+    # 计算偏移量
+    deltas = box_refinement_graph(positive_rois, gt_bboxes)
+    deltas /= config.RPN_BBOX_STD_DEV # 算出来的太小，需要统一增大
+
+    rois = tf.concat([positive_rois, negative_rois], axis=0)
+
+    N = tf.shape(negative_rois)[0]
+    P = config.num_proposals_train - tf.shape(rois)[0]
+    
+    rois = tf.pad(rois,[(0,P),(0,0)])
+    gt_class_ids = tf.pad(gt_class_ids, [(0, N+P)])
+    deltas = tf.pad(deltas,[(0,N+P),(0,0)])
+    gt_bboxes = tf.pad(gt_bboxes,[(0,N+P),(0,0)])
+    
+    return rois, gt_class_ids, deltas, gt_bboxes
+```
 
 ## Fast R-CNN
 
