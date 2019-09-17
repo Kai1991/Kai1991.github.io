@@ -17,7 +17,7 @@ tags:
 次篇博客写对Mask_rcnn的理解,这篇只写对结构源码细节的理解，后面再写一篇对Mask——rcnn训练的博客。
 
 Mask_Rcnn是两阶段的模型，主要的的模块有:
-<img src="{{ site.baseurl }}img/2019-8-23-Mask_Rcnn_Structure/mask_rcnn_structure.png" /> 
+<img src="{{ site.baseurl }}/img/2019-8-23-Mask_Rcnn_Structure/mask_rcnn_structure.png" /> 
 
 ## backbone
 可以使用restnet50，restnet101 或者 在配置中自己定制的模型来提取特征，代码如下

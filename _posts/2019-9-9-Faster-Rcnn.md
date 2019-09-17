@@ -19,7 +19,7 @@ Faster R-cnn代码实现，原理记录。分模块介绍Faster R-cnn，它有�
 - fpn模块.     Roi pooling,fpn_classifiler 分类回归,fpn中的两个loss
 
 现在首先大体介绍一下Faster R-cnn 。来张整体结构图，对她有个大体了解：
-<img src="{{ site.baseurl }}img/2019-9-9-Faster-Rcnn/fasterRCNN 核心原理框图.jpg" /> 
+<img src="{{ site.baseurl }}/img/2019-9-9-Faster-Rcnn/fasterRCNN核心原理框图.jpg" /> 
 这张图有两个线路：训练路线和推理路线。rpn（stage1） + detection target + fast rcnn (stage2) 为训练路线，rpn（stage1） + fast rcnn (stage2) 为推理路线。 下面详细介绍每个模块的功能。
 
 ## 训练数据-输入
