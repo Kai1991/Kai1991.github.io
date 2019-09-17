@@ -22,6 +22,17 @@ Faster R-cnn代码实现，原理记录。分模块介绍Faster R-cnn，它有�
 <img src="{{ site.baseurl }}img/2019-9-9-Faster-Rcnn/fasterRCNN 核心原理框图.jpg" /> 
 这张图有两个线路：训练路线和推理路线。rpn（stage1） + detection target + fast rcnn (stage2) 为训练路线，rpn（stage1） + fast rcnn (stage2) 为推理路线。 下面详细介绍每个模块的功能。
 
+## 训练数据-输入
+训练数据的输入有：
+- 图片，边框（真值） 
+- 类别（所有类别中的一种）
+- rpn_match(rpn推荐的anchor是否是前景)
+- rpn_bboxes(前景anchor与真值的偏移量)
+
+## 如何通过anchor得到真正的bboxes
+ anchor 可以使用 中心点坐标，高和宽表示，如果调整anchor的到bboxes？显然是平移和缩放得到啦。对中心点进行平移，对高和宽进行缩放去逼近bboxes。应该平移多少，缩放多少这是模型学习的内容。
+
+
 ## Feature Extractor
 特征提取模块使用的是 Resnet50 来提取特征，感觉没啥好描述的。简单描述一下：下采样的步长（TODO）得到的特征图是（TODO）。
 
