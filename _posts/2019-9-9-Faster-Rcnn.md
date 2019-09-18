@@ -147,11 +147,15 @@ def anchor_gen(featureMap_size, ratios, scales, rpn_stride, anchor_stride):
     return boxes
 ```
 
+生成anchor的可视化：
+<img src="{{ site.baseurl }}/img/2019-9-9-Faster-Rcnn/anchor.jpg" /> 
+
 ### RPN-loss
 rpn有两个损失函数：
 - 分类损失。只使用iou大于0.7 和 iou小于 0.3的真值参与计算损失 使用交叉熵损失函数。
 - 回归损失，使用的是smooth L1 loss(下雨阈值的使用二次函数，大于阈值的使用一次函数).
 代码如下：
+
 ```
 def rpn_class_loss(rpn_matchs,rpn_class_logits):
     # rpn_matchs 分类真值：这个anchor是否有 前景和背景以及中间项  起值对应 1，-1，0 ； shape (?,8*8*9,1)
@@ -197,6 +201,7 @@ def rpn_bbox_loss(target_bbox,rpn_matchs,rpn_bbox):
 
 ### DetectionTarget
 此模块在训练时使用，为下层提供训练数据。筛选proposal提供的数据，筛选与真值iou高的数据推送数据
+
 ```
 def detection_target_graph(proposals, gt_class_ids, gt_bboxes, config):
     #提取非0 部分：输入，ptoposal 为了固定长度使用 0进行padding
